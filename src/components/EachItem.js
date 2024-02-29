@@ -3,7 +3,7 @@ import { RiDeleteBin2Line } from 'react-icons/ri';
 import { FiEdit } from "react-icons/fi";
 
 const EachItem = ({ item, onCheck, onDelete, onEdit, onAddSubChore, onDeleteSubChore, onEditSubChore, onCheckSubChore }) => {
-    console.log('onAddSubChore', onAddSubChore);
+  console.log('onAddSubChore', onAddSubChore);
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(item.title);
   const [editedDescription, setEditedDescription] = useState(item.description);
@@ -33,6 +33,30 @@ const EachItem = ({ item, onCheck, onDelete, onEdit, onAddSubChore, onDeleteSubC
           <div className="item-content">
             <h3 className={item.checked ? 'item-title checked' : 'item-title'}>{item.title}</h3>
             <p className={item.checked ? 'item-description checked' : 'item-description'}>{item.description}</p>
+            {/* Sub-chores */}
+            <div>
+              {item.subChores && item.subChores.map((subChore, index) => (
+                <div key={index} className="sub-chore">
+                  <input
+                    type="checkbox"
+                    checked={subChore.checked}
+                    onChange={() => onCheckSubChore(item.id, index)}
+                  />
+                  <span>{subChore.title}</span>
+                  <button className="edit-button" onClick={() => onEditSubChore(item.id, index)}><FiEdit /></button>
+                  <button className="delete-button" onClick={() => onDeleteSubChore(item.id, index)}><RiDeleteBin2Line /></button>
+                </div>
+              ))}
+              <div className="add-sub-chore">
+                <input
+                  type="text"
+                  placeholder="Add Sub-Chore"
+                  value={newSubChore}
+                  onChange={(e) => setNewSubChore(e.target.value)}
+                />
+                <button onClick={handleAddSubChoreClick}>Add</button>
+              </div>
+            </div>
           </div>
           <button className="edit-button" onClick={() => setIsEditing(true)}><FiEdit /></button>
           <button className="delete-button" onClick={() => onDelete(item.id)}><RiDeleteBin2Line /></button>
@@ -53,32 +77,6 @@ const EachItem = ({ item, onCheck, onDelete, onEdit, onAddSubChore, onDeleteSubC
           <button onClick={() => setIsEditing(false)}>Cancel</button>
         </>
       )}
-      
-      {/* Sub-chores */}
-      <div>
-        <h4>Sub-Chores</h4>
-        {item.subChores && item.subChores.map((subChore, index) => (
-            <div key={index} className="sub-chore">
-            <input
-                type="checkbox"
-                checked={subChore.checked}
-                onChange={() => onCheckSubChore(item.id, index)}
-            />
-            <span>{subChore.title}</span>
-            <button className="edit-button" onClick={() => onEditSubChore(item.id, index)}><FiEdit /></button>
-            <button className="delete-button" onClick={() => onDeleteSubChore(item.id, index)}><RiDeleteBin2Line /></button>
-            </div>
-        ))}
-        <div className="add-sub-chore">
-            <input
-            type="text"
-            placeholder="Add Sub-Chore"
-            value={newSubChore}
-            onChange={(e) => setNewSubChore(e.target.value)}
-            />
-            <button onClick={handleAddSubChoreClick}>Add</button>
-        </div>
-        </div>
     </div>
   );
 };
