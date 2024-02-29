@@ -21,10 +21,10 @@ const App = () => {
         const updatedItem = { ...item, checked: !item.checked };
   
         // Update the sub-chores of the item based on the checked state
-        const updatedSubChores = updatedItem.subChores.map((subChore) => ({
+        const updatedSubChores = item.subChores ? item.subChores.map((subChore) => ({
           ...subChore,
           checked: updatedItem.checked,
-        }));
+        })) : [];
   
         // Return the updated item with updated sub-chores
         return { ...updatedItem, subChores: updatedSubChores };
@@ -33,6 +33,7 @@ const App = () => {
     });
     setItems(updatedItems);
   };
+  
 
   const handleDelete = (id) => {
     const updatedItems = items.filter((item) => item.id !== id);
@@ -101,6 +102,7 @@ const App = () => {
   };
 
   const handleEditSubChore = (itemId, subChoreIndex, newTitle) => {
+    console.log('Editing subchore:', itemId, subChoreIndex, newTitle);
     const updatedItems = items.map((item) => {
       if (item.id === itemId) {
         const updatedSubChores = item.subChores.map((subChore, index) => {
