@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import { RiDeleteBin2Line } from 'react-icons/ri';
-import { FiEdit } from "react-icons/fi";
+import { FiEdit } from 'react-icons/fi';
 
-const EachItem = ({ item, onCheck, onDelete, onEdit, onAddSubChore, onDeleteSubChore, onEditSubChore, onCheckSubChore }) => {
+const EachItem = ({
+  item,
+  onCheck,
+  onDelete,
+  onEdit,
+  onAddSubChore,
+  onDeleteSubChore,
+  onEditSubChore,
+  onCheckSubChore,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(item.title);
   const [editedDescription, setEditedDescription] = useState(item.description);
   const [newSubChore, setNewSubChore] = useState('');
+  const [editingSubChoreIndex, setEditingSubChoreIndex] = useState(null);
+  const [editedSubChoreTitle, setEditedSubChoreTitle] = useState('');
 
   const handleSave = () => {
     onEdit(item.id, editedTitle, editedDescription);
@@ -14,10 +25,13 @@ const EachItem = ({ item, onCheck, onDelete, onEdit, onAddSubChore, onDeleteSubC
   };
 
   const handleEditSubChoreClick = (subChoreIndex) => {
-    const newTitle = prompt('Enter new sub-chore title:', item.subChores[subChoreIndex].title);
-    if (newTitle) {
-      onEditSubChore(item.id, subChoreIndex, newTitle);
-    }
+    setEditingSubChoreIndex(subChoreIndex);
+    setEditedSubChoreTitle(item.subChores[subChoreIndex].title);
+  };
+
+  const handleEditSubChoreSave = () => {
+    onEditSubChore(item.id, editingSubChoreIndex, editedSubChoreTitle);
+    setEditingSubChoreIndex(null);
   };
 
   const handleAddSubChoreClick = () => {
@@ -48,8 +62,21 @@ const EachItem = ({ item, onCheck, onDelete, onEdit, onAddSubChore, onDeleteSubC
                     checked={subChore.checked}
                     onChange={() => onCheckSubChore(item.id, index)}
                   />
-                  <span>{subChore.title}</span>
-                  <button className="edit-button" onClick={() => handleEditSubChoreClick(index)}><FiEdit /></button>
+                  {editingSubChoreIndex === index ? (
+                    <>
+                      <input
+                        type="text"
+                        value={editedSubChoreTitle}
+                        onChange={(e) => setEditedSubChoreTitle(e.target.value)}
+                      />
+                      <button onClick={handleEditSubChoreSave}>Save</button>
+                    </>
+                  ) : (
+                    <>
+                      <span>{subChore.title}</span>
+                      <button className="edit-button" onClick={() => handleEditSubChoreClick(index)}><FiEdit /></button>
+                    </>
+                  )}
                   <button className="delete-button" onClick={() => onDeleteSubChore(item.id, index)}><RiDeleteBin2Line /></button>
                 </div>
               ))}
