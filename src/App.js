@@ -15,9 +15,22 @@ const App = () => {
   }, [items]);
 
   const handleCheck = (id) => {
-    const updatedItems = items.map((item) =>
-      item.id === id ? { ...item, checked: !item.checked } : item
-    );
+    const updatedItems = items.map((item) => {
+      if (item.id === id) {
+        // Toggle the checked state of the item
+        const updatedItem = { ...item, checked: !item.checked };
+  
+        // Update the sub-chores of the item based on the checked state
+        const updatedSubChores = updatedItem.subChores.map((subChore) => ({
+          ...subChore,
+          checked: updatedItem.checked,
+        }));
+  
+        // Return the updated item with updated sub-chores
+        return { ...updatedItem, subChores: updatedSubChores };
+      }
+      return item;
+    });
     setItems(updatedItems);
   };
 

@@ -130,3 +130,13 @@ label {
   margin: 20px;
   font-weight: bold;
 }
+
+.sub-chore {
+  display: center;
+  align-items: center;
+}
+
+.sub-chore.checked {
+  text-decoration: line-through;
+  color: rgb(57, 219, 57);
+}
