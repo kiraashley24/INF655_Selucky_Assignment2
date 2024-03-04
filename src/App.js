@@ -80,15 +80,17 @@ const App = () => {
           title: subChoreTitle,
           checked: false,
         };
+        const subChores = item.subChores || []; // Initialize subChores as an empty array if it's undefined
         return {
           ...item,
-          subChores: [...item.subChores, newSubChore],
+          subChores: [...subChores, newSubChore],
         };
       }
       return item;
     });
     setItems(updatedItems);
   };
+  
 
   const handleDeleteSubChore = (itemId, subChoreIndex) => {
     const updatedItems = items.map((item) => {
