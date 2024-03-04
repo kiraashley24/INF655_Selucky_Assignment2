@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IoIosAddCircle } from "react-icons/io";
+import { v4 as uuidv4 } from 'uuid';
 
 const AddItem = ({ onAddItem }) => {
   const [title, setTitle] = useState('');
@@ -11,6 +12,7 @@ const AddItem = ({ onAddItem }) => {
       alert('Please enter a title for the item');
       return;
     }
+    const id = uuidv4();
     onAddItem({ title, description });
     setTitle('');
     setDescription('');
