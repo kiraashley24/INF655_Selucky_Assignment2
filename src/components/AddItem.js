@@ -8,9 +8,9 @@ const AddItem = ({ onAddItem }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title.trim()) {
-      alert('Please enter a title for the item');
-      return;
+    if (!title.trim() || !description.trim()) {
+        alert('Please enter both a title and description for the item');
+        return;
     }
     const id = uuidv4();
     onAddItem({ title, description });

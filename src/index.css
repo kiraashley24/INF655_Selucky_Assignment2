@@ -12,6 +12,7 @@ h1 {
 h2 {
   font-size: x-large;
   text-align: center;
+  text-decoration: underline;
 }
 
 .container {
@@ -47,10 +48,12 @@ h2 {
 
 .item-title {
   font-size: 24px;
+  text-decoration: underline;
 }
 
 .item-description {
   font-size: 18px;
+  font-style: italic;
 }
 
 .delete-button {
